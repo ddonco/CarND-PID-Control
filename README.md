@@ -1,6 +1,12 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
+[//]: # (Image References)
+
+[p_gain]: ./images/p_tuning.png "Proportional Gain Tuning"
+[i_gain]: ./images/i_tuning.png "Integral Gain Tuning"
+[d_gain]: ./images/d_tuning.png "Derivative Gain Tuning"
+
 ## Goal
 
 The goal of the PID control project is to implement a PID controller to set the steering angle of the car. The controller must be able to safely navigate the car around the track and obey traffic laws such as driving within the lane lines.
@@ -13,19 +19,25 @@ The PID controller is a type of control algorithm that calculates the error betw
 
 The proportional component produces an output that is directly proportional to the current error between the process variable and the setpoint. The proportional gain `Kp` can be tuned to control how quickly the controller responds to the error, however as this gain is increased the controller overshoots the setpoint. A large `Kp` will produce an oscillating output and even an unstable controller that can't converge on the setpoint. The implementation of the proportional component is simply multiplying `Kp` by the CTE to produce its component of the controller output.
 
+![alt text][p_gain]
+
 #### Integral Element
 
-The integral component is responsible for producing an output that's proportional to both the magnitude of the error between the process variable and the setpoint as well as the duration of the error. In other words, as the error accumulates over time, the integral component will contribute more and more to the controller output value to drive the error towards zero. The integral gain `Ki` can also be tuned to control how quickly the controller responds by amplifying accumulation of the error. A large integral gain will push the controller to react quickly to sustained error, however it can also produce an oscillating or unstable controller when this gain is too large. The implementation of the integral component is done by summing the CTE with itself over each timestep and multiplying this by `Ki`. 
+The integral component is responsible for producing an output that's proportional to both the magnitude of the error between the process variable and the setpoint as well as the duration of the error. In other words, as the error accumulates over time, the integral component will contribute more and more to the controller output value to drive the error towards zero. The integral gain `Ki` can also be tuned to control how quickly the controller responds by amplifying accumulation of the error. A large integral gain will push the controller to react quickly to sustained error, however it can also produce an oscillating or unstable controller when this gain is too large. The implementation of the integral component is done by summing the CTE with itself over each timestep and multiplying this by `Ki`.
+
+![alt text][i_gain]
 
 #### Derivative Element
 
 The derivative component is responsible for giving the controller a predictive quality by calculating the slope of the error over time. A rapidly changing error between the process variable and the setpoint, such as a sudden deviation between the two, will provoke the derivative component to drive the controller output towards the direction of a smaller change in error and presumably closer to the setpoint. The derivative element of the PID controller can be tuned by adjusting the derivative gain `Kd` to increase or decrease the controllers sensitivity changes in error. The implementation of the derivative component is done by subtracting the current CTE from the CTE of the previous timestep to calculate the change in CTE. This value is then multiplied by `Kd` to complete the derivative component of the controller output.
 
+![alt text][d_gain]
+
 #### PID Gain Tuning
 
 The final PID gain values were selected by manual trial and error to produce smooth steering control and a minimal cross track error.
 - Kp = 0.1
-- Ki = 0.002
+- Ki = 0.005
 - Kd = 3.0
 
 ## Dependencies
