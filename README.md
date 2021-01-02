@@ -15,11 +15,15 @@ The goal of the PID control project is to implement a PID controller to set the 
 
 The PID controller is a type of control algorithm that calculates the error between a process variable setpoint, such as the desired vehicle position within a lane, and the measures process variable, such as the actual position. The output of the PID controller specifies a controlled variable, such as the steering angle of the vehicle. There are three key components to a PID controller, which git it its name, the Proportional control element, the Integral control element, and the Derivative control element. The effect of these componenets of the controller are as follows:
 
+---
+
 #### Proportional Element
 
 The proportional component produces an output that is directly proportional to the current error between the process variable and the setpoint. The proportional gain `Kp` can be tuned to control how quickly the controller responds to the error, however as this gain is increased the controller overshoots the setpoint. A large `Kp` will produce an oscillating output and even an unstable controller that can't converge on the setpoint. The implementation of the proportional component is simply multiplying `Kp` by the CTE to produce its component of the controller output.
 
 ![alt text][p_gain]
+
+---
 
 #### Integral Element
 
@@ -27,11 +31,15 @@ The integral component is responsible for producing an output that's proportiona
 
 ![alt text][i_gain]
 
+---
+
 #### Derivative Element
 
 The derivative component is responsible for giving the controller a predictive quality by calculating the slope of the error over time. A rapidly changing error between the process variable and the setpoint, such as a sudden deviation between the two, will provoke the derivative component to drive the controller output towards the direction of a smaller change in error and presumably closer to the setpoint. The derivative element of the PID controller can be tuned by adjusting the derivative gain `Kd` to increase or decrease the controllers sensitivity changes in error. The implementation of the derivative component is done by subtracting the current CTE from the CTE of the previous timestep to calculate the change in CTE. This value is then multiplied by `Kd` to complete the derivative component of the controller output.
 
 ![alt text][d_gain]
+
+---
 
 #### PID Gain Tuning
 
